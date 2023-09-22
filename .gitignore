@@ -35,5 +35,6 @@
 *.sdf
 *.suo
 *.tlog
+*.vcxproj.user
 
 Debug/
