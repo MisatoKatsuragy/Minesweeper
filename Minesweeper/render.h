@@ -11,11 +11,14 @@ public:
 	void DrawString(LPCTSTR str, int x, int y, HFONT font);
 	void Flip();
 	bool IsLost();
-	void Restore();
+	void RestoreIfLost();
 
 private:
+	HWND m_hwnd;
 	LPDIRECTDRAW m_factory;
 	LPDIRECTDRAWSURFACE m_primary;
 	LPDIRECTDRAWSURFACE m_secondary;
 	LPDIRECTDRAWCLIPPER m_clipper;
 };
+
+extern Render* g_render;

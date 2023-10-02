@@ -24,6 +24,11 @@ public:
 
 	void HandleMessages();
 
+	inline HWND GetHwnd() const
+	{
+		return (m_hwnd);
+	}
+
 private:
 	HWND m_hwnd;
 	bool m_closed;
