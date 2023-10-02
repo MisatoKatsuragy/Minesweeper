@@ -36,5 +36,7 @@
 *.suo
 *.tlog
 *.vcxproj.user
+*.bmp
+.vs/
 
 Debug/
