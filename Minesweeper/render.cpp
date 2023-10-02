@@ -131,7 +131,21 @@ void  Render::DrawImage(LPBITMAP bitmap, int x, int y)
 	assert(bitmap->bmBitsPixel >= 24);
 	ZeroMemory(&ddbltfx, sizeof(ddbltfx));
 	ddbltfx.dwSize = sizeof(ddbltfx);
-	DWORD* pxl = static_cast<DWORD*>(bitmap->bmBits);
+
+	BYTE * pxl = static_cast<BYTE*>(bitmap->bmBits);
+	for (long s = 0; s < bitmap->bmHeight; ++s)
+	{
+		BYTE * scanline = &pxl[((bitmap->bmHeight - 1) - s) * bitmap->bmWidthBytes];
+		for (long p = 0; p < bitmap->bmWidth; ++p, scanline += 3)
+		{
+			ddbltfx.dwFillColor = RGB(scanline[0], scanline[1], scanline[2]);
+			SetRect(&rct, x + p, y + s, x + p + 1, y + s + 1);
+			hr = m_secondary->Blt(&rct, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &ddbltfx);
+			assert(SUCCEEDED(hr));
+		}
+	}
+
+	/*DWORD* pxl = static_cast<DWORD*>(bitmap->bmBits);
 	for (long r = 0; r < bitmap->bmHeight; ++r)
 	{
 		for (long c = 0; c < bitmap->bmWidth; ++c)
@@ -142,7 +156,7 @@ void  Render::DrawImage(LPBITMAP bitmap, int x, int y)
 			hr = m_secondary->Blt(&rct, NULL, NULL, DDBLT_WAIT | DDBLT_COLORFILL, &ddbltfx);
 			assert(SUCCEEDED(hr));
 		}
-	 }
+	 }*/
 }
 
 void Render::DrawString(LPCTSTR str, int x, int y, HFONT font)

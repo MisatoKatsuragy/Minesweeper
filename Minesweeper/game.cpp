@@ -11,18 +11,21 @@ Game::Game()
 	m_position.x = 20;
 	m_position.y = 20;
 	TCHAR buff[16];
+	DIBSECTION dib;
 	m_bitmaps.resize(CellType_Max);
 	for (size_t i = 0; i < CellType_Max; ++i)
 	{
 		wsprintf(buff, TEXT("Cells\\%i.bmp"), i);
 		m_bitmaps[i] = (HBITMAP)LoadImage(NULL, buff, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+		assert(m_bitmaps[i] != NULL);
+		GetObject(m_bitmaps[i], sizeof(dib), &dib);
 	}
 }
 
 Game::~Game()
 {
 	size_t i = 0;
-	for (; i < m_cells.size(); ++i);
+	for (; i < CellType_Max; ++i)
 	{
 		DeleteBitmap(m_bitmaps[i]);
 	}

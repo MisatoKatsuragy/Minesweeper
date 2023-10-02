@@ -20,14 +20,21 @@ int main()
 	while(!g_wnd->IsClosed())
 	{
 		g_wnd->HandleMessages();
-		g_render->RestoreIfLost();
-		g_render->Clear(RGB(0, 0, 0));
-		g_game->Draw();
-		//g_render->SetPixel(100, 100, RGB(255, 255, 255));
-		//g_render->DrawImage(&dib.dsBm, 100, 100);
+		if (!g_wnd->IsClosed())
+		{ 
+			g_render->RestoreIfLost();
+			if (g_render->IsLost())
+			{
+				continue;
+			}
+			g_render->Clear(RGB(0, 0, 0));
+			g_game->Draw();
+			//g_render->SetPixel(100, 100, RGB(255, 255, 255));
+			//g_render->DrawImage(&dib.dsBm, 100, 100);
 
-		g_render->Flip();
-		Sleep(15);
+			g_render->Flip();
+			Sleep(15);
+		}
 	}
 
 	//if (hbt)
